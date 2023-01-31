@@ -48,7 +48,7 @@ void clear_digit(){
             lcdNumber[i][j]=' ';
         }
     }
-}
+} //clear 2D array
 void draw_digit(int n){
     clear_digit();
     if(n==0){
@@ -120,38 +120,48 @@ void draw_digit(int n){
         drawF();
         drawG();
     }
-}
-void print_digit() {
+}   //draw 2D array
+void print_digit2D() {
     for (int i = 0; i < 2*s+3; i++) { //collumn
         for (int j = 0; j < s+2; j++) { //row
             printf("%c", lcdNumber[i][j]);
         }
         printf("\n");
     }
-}
+} //print 2D array
 void n_to_array(int n){
 
     for(int i = 7 ; i>=0 ; i --)
     {
-        while(n!=0){
-            input[i]=n%10;
-            n/=10;
-        }
+        input[i]=n%10;
+        n/=10;
     }
-}
+} //convert number to array
 void drawIN3D(){
     for(int i = 0 ; i<=7 ; i++)//position
     {
         draw_digit(input[i]);
-        print_digit();
-        printf("\n%d",i);
-        for(int j = 0; j < nLines; j++) { //rows
-            for (int k = 0; k < nColumns; k++) { //columns
-                lcdNumbers[i][j][k] = lcdNumber[j][k];
+        if(input[i]>0){
+            //printf("%d",input[i]); //debug
+            //print_digit2D(); //debug
+            //printf("\n%d\n",i); //debug
+            for(int j = 0; j < s+2; j++) { //rows
+                for (int k = 0; k < 2*s+3; k++) { //columns
+                    lcdNumbers[i][j][k] = lcdNumber[j][k];
+                }
             }
         }
+
+    }
+}void print_onedigit3D(){
+    for (int i = 0; i < 2*s+3; i++) { //collumn
+        for (int j = 0; j < s+2; j++) { //row
+            printf("%c", lcdNumbers[7][i][j]);
+        }
+        printf("\n");
     }
 }
+
 void print_digit3D(){
     for (int i = 0; i < 2*s+3; i++) { //collumn
         for(int k = 0 ; k<=7 ; k++){
@@ -175,9 +185,10 @@ void lcdclear3D(){
 void main(){
     scanf("%d %d",&s,&n);
     n_to_array(n);
-    lcdclear3D();
+    for(int i = 0 ; i<=7 ; i++){
+        //printf("%d\n",input[i]);
+    }
     drawIN3D();
-    print_digit3D();
-    //draw_digit(n);
-    //print_digit();
+    print_onedigit3D();
+
 }

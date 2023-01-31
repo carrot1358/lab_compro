@@ -5,6 +5,7 @@ int nColumns;
 int input[8];
 char lcdNumber[23][12];
 char lcdNumbers[8][23][12];
+int len_count;
 int s,n;
 
 void drawA(){
@@ -133,60 +134,53 @@ void n_to_array(int n){
 
     for(int i = 7 ; i>=0 ; i --)
     {
+        if(n!=0){
+            len_count++;
             input[i]=n%10;
             n/=10;
+        }
     }
 } //convert number to array
-void drawIN3D(){
-    for(int i = 0 ; i<=7 ; i++)//position
-    {
-        draw_digit(input[i]);
-        if(input[i]>0){
-            //printf("%d",input[i]); //debug
-            print_digit2D(); //debug
-            for(int j = 0; j < s+2; j++) { //rows
-                for (int k = 0; k < 2*s+3; k++) { //columns
-                    lcdNumbers[i][j][k] = lcdNumber[j][k];
-                }
-            }
-        }
-
-    }
-}void print_onedigit3D(){
-    for (int i = 0; i < s+2; i++) { //collumn
-            for (int j = 0; j < 2*s+3; j++) { //row
-                printf("%c", lcdNumbers[0][i][j]);
-        }
-        printf("\n");
-    }
-}
-
 void print_digit3D(){
-    for (int i = 0; i < 2*s+3; i++) { //collumn
-        for(int k = 0 ; k<=7 ; k++){
-            for (int j = 0; j < s+2; j++) { //row
+    for (int i = 0; i < 2*s+3; i++) { //rows
+        for(int k = 8-len_count; k<8 ; k++){
+            for (int j = 0; j < s+3; j++) { //collumns
                 printf("%c", lcdNumbers[k][i][j]);
             }
         }
         printf("\n");
     }
 }
-void lcdclear3D(){
-    for(int k = 0 ; k<=7 ; k++){
-        for(int i=0;i<23;i++){ //collumn
-            for(int j=0;j<12;j++){ //row
-                lcdNumbers[k][i][j]=' ';
+
+void drawto3D_temp(){
+    for(int i = 7; i>=0;i--){
+        draw_digit(input[i]); //วาดใน2D
+
+        for(int j = 0; j < 2*s+3; j++) { //rows
+            for (int k = 0; k < s+2; k++) { //columns
+                lcdNumbers[i][j][k] = lcdNumber[j][k];
             }
         }
     }
+    printf("im printer debug!!\n");
+    for(int k = 8-len_count; k<8 ; k++){ //position
+        printf("input[%d] : %d\n",k,input[k]);
+        for(int i = 0 ; i<2*s+3 ; i++){ //rows
+            for(int j = 0 ; j<s+2 ; j++){ //collumns
+                printf("%c",lcdNumbers[k][i][j]);
+            }
+            printf("\n");
+        }
+    }
+    printf("\nlen_count : %d",len_count);
 
 }
+
+
 void main(){
     scanf("%d %d",&s,&n);
     n_to_array(n);
-    for(int i = 0 ; i<=7 ; i++){
-        //printf("%d\n",input[i]);
-    }
-    drawIN3D();
-
+    drawto3D_temp();
+    printf("\n");
+    print_digit3D();
 }

@@ -10,17 +10,13 @@ int main() {
         return 0;
     }
     while (m != 0 || n != 0) {
-        old_carry = carry;
         carry = 0;
-
-
         carry = (m % 10 + n % 10 + old_carry)/10;
-
-
         if (carry)
             carry_count++;
         m /= 10;
         n /= 10;
+        old_carry = carry;
     }
 
     if (carry_count == 0)
@@ -32,6 +28,4 @@ int main() {
         printf("%d carry operations.\n", carry_count);
 
     main();
-
-    return 0;
 }

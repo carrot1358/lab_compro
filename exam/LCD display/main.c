@@ -1,12 +1,10 @@
 #include "stdio.h"
 
-int nLines;
-int nColumns;
 int input[8];
 char lcdNumber[23][12];
 char lcdNumbers[8][23][12];
-int len_count;
-int s,n;
+int len_count,s,n;
+
 
 void drawA(){
     for(int i = 1 ; i <= s ; i++){
@@ -152,7 +150,7 @@ void print_digit3D(){
     }
 }
 
-void drawto3D_temp(){
+void drawto3D(){
     for(int i = 7; i>=0;i--){
         draw_digit(input[i]); //วาดใน2D
 
@@ -162,6 +160,8 @@ void drawto3D_temp(){
             }
         }
     }
+}
+void drawdebug(){
     printf("im printer debug!!\n");
     for(int k = 8-len_count; k<8 ; k++){ //position
         printf("input[%d] : %d\n",k,input[k]);
@@ -173,14 +173,12 @@ void drawto3D_temp(){
         }
     }
     printf("\nlen_count : %d",len_count);
-
 }
-
 
 void main(){
     scanf("%d %d",&s,&n);
     n_to_array(n);
-    drawto3D_temp();
+    drawto3D();
     printf("\n");
     print_digit3D();
 }

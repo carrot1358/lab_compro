@@ -21,7 +21,6 @@ unsigned long long main() {
     }
     while(!is_palindrome){
 
-        //เช็คผลลัพธ์ว่าเป็น palindrome หรือไม่
         if(result == f_reversed(result)){ //is a palindrome
             printf("%d %llu\n",count,result);
             is_palindrome = true;
@@ -33,7 +32,6 @@ unsigned long long main() {
             main();
         }
         else{//is not a palindrome
-            //บวกเลขกับเลขที่ย้อนกลับ
             original = result;
             reversed = f_reversed(original);
             result = original + reversed;

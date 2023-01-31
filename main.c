@@ -1,198 +1,42 @@
-#include "stdio.h"
-#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
-int nLines;
-int nColumns;
-int input[8];
-char lcdNumber[23][12];
-char lcdNumbers[8][23][12];
-int len_count;
-int s,n;
-
-void drawA(){
-    for(int i = 1 ; i <= s ; i++){
-        lcdNumber[0][i] = '-';
+unsigned long  long f_reversed(unsigned long long num){
+    unsigned long long reversed = 0;
+    while(num > 0){
+        reversed = reversed * 10 + num % 10;
+        num /= 10;
     }
-}
-void drawG(){
-    for(int i = 1 ; i <= s ; i++){
-        lcdNumber[s+1][i] = '-';
-    }
-}
-void drawD(){
-    for(int i = 1 ; i <= s ; i++){
-        lcdNumber[2*s+2][i] = '-';
-    }
-}
-void drawF(){
-    for(int i = 1 ; i <= s ; i++){
-        lcdNumber[i][0] = '|';
-    }
-}
-void drawB(){
-    for(int i = 1 ; i <= s ; i++){
-        lcdNumber[i][s+1] = '|';
-    }
-}
-void drawE(){
-    for(int i = s+2 ; i <= 2*s+1 ; i++){
-        lcdNumber[i][0] = '|';
-    }
-}
-void drawC(){
-    for(int i = s+2 ; i <= 2*s+1 ; i++){
-        lcdNumber[i][s+1] = '|';
-    }
-}
-void clear_digit(){
-    for(int i=0;i<23;i++){ //collumn
-        for(int j=0;j<12;j++){ //row
-            lcdNumber[i][j]=' ';
-        }
-    }
-} //clear 2D array
-void draw_digit(int n){
-    clear_digit();
-    if(n==0){
-        drawA();
-        drawB();
-        drawC();
-        drawD();
-        drawE();
-        drawF();
-    }
-    else if(n==1){
-        drawB();
-        drawC();
-    }
-    else if(n==2){
-        drawA();
-        drawB();
-        drawG();
-        drawE();
-        drawD();
-    }
-    else if(n==3){
-        drawA();
-        drawB();
-        drawG();
-        drawC();
-        drawD();
-    }
-    else if(n==4){
-        drawF();
-        drawG();
-        drawB();
-        drawC();
-    }
-    else if(n==5){
-        drawA();
-        drawF();
-        drawG();
-        drawC();
-        drawD();
-    }
-    else if(n==6){
-        drawA();
-        drawF();
-        drawG();
-        drawC();
-        drawD();
-        drawE();
-    }
-    else if(n==7){
-        drawA();
-        drawB();
-        drawC();
-    }
-    else if(n==8){
-        drawA();
-        drawB();
-        drawC();
-        drawD();
-        drawE();
-        drawF();
-        drawG();
-    }
-    else if(n==9){
-        drawA();
-        drawB();
-        drawC();
-        drawD();
-        drawF();
-        drawG();
-    }
-}   //draw 2D array
-void print_digit2D() {
-    for (int i = 0; i < 2*s+3; i++) { //collumn
-        for (int j = 0; j < s+2; j++) { //row
-            printf("%c", lcdNumber[i][j]);
-        }
-        printf("\n");
-    }
-} //print 2D array
-void n_to_array(int n){
-    char Cinput[8];
-    sprintf(Cinput, "%d", n);
-    if(Cinput[0]=='0'){//check leading 0;
-        input[0]=0;
-        printf("hi\n");
-        len_count++;
-    }
-    for(int i = 7 ; i>=0 ; i --)
-    {
-        if(n!=0){
-            len_count++;
-            input[i]=n%10;
-            n/=10;
-            printf("%c",input[i]);
-        }
-    }
-} //convert number to array
-void print_digit3D(){
-    for (int i = 0; i < 2*s+3; i++) { //rows
-        for(int k = 8-len_count; k<8 ; k++){
-            for (int j = 0; j < s+3; j++) { //collumns
-                printf("%c", lcdNumbers[k][i][j]);
-            }
-        }
-        printf("\n");
-    }
+    return reversed;
 }
 
-void drawto3D_temp(){
-    for(int i = 7; i>=0;i--){
-        draw_digit(input[i]); //วาดใน2D
-
-        for(int j = 0; j < 2*s+3; j++) { //rows
-            for (int k = 0; k < s+2; k++) { //columns
-                lcdNumbers[i][j][k] = lcdNumber[j][k];
-            }
-        }
-    }
-    printf("im printer debug!!\n");
-    for(int k = 8-len_count; k<8 ; k++){ //position
-        printf("input[%d] : %d\n",k,input[k]);
-        for(int i = 0 ; i<2*s+3 ; i++){ //rows
-            for(int j = 0 ; j<s+2 ; j++){ //collumns
-                printf("%c",lcdNumbers[k][i][j]);
-            }
-            printf("\n");
-        }
-    }
-    printf("\nlen_count : %d",len_count);
-
-}
-
-
-int main(){
-    scanf("%d %d",&s,&n);
-    if(s == 0 && n == 0){
+unsigned long long main() {
+    unsigned long long input , original , reversed , result;
+    int count=0;
+    bool is_palindrome = false;
+    scanf("%llu", &input);
+    result= input;
+    if(input==0){
         return 0;
     }
-    n_to_array(n);
-    drawto3D_temp();
-    printf("\n");
-    print_digit3D();
-    main();
+    while(!is_palindrome){
+
+        if(result == f_reversed(result)){ //is a palindrome
+            printf("%d %llu\n",count,result);
+            is_palindrome = true;
+            main();
+        }
+        else if (count == 1000 || result >= 4294967295){
+            printf("Not palindrome found\n");
+            is_palindrome = true;
+            main();
+        }
+        else{//is not a palindrome
+            original = result;
+            reversed = f_reversed(original);
+            result = original + reversed;
+
+            ++count;
+        }
+    }
 }
